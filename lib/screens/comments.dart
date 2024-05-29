@@ -73,7 +73,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
         }
 
         if (snapshot.data == null) {
-          return const Text('Uh oh! snapshot is null');
+          return const Text('Uh oh! No comments found');
         }
 
         return ListView.builder(

@@ -98,7 +98,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
               }
 
               if (snapshot.data == null) {
-                return const Text('No data has been found');
+                return const Text('No photos have been found');
               }
 
               return GridView(
