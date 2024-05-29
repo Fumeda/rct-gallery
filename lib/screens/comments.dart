@@ -55,7 +55,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  'There was an issue getting to the comments.',
+                  'There was an issue getting to the comments\nCheck your internet connection and try again later.',
                   textAlign: TextAlign.center,
                 ),
                 ElevatedButton.icon(

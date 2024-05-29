@@ -24,6 +24,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: NavigationBar(
+        backgroundColor: Theme.of(context).colorScheme.background,
         onDestinationSelected: (index) {
           setState(() {
             currentPageIndex = index;
@@ -41,7 +42,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
           ),
         ],
       ),
-      body: screens[currentPageIndex],
+      body: SafeArea(child: screens[currentPageIndex]),
     );
-  }
+  } 
 }

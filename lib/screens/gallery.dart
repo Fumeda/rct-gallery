@@ -80,7 +80,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
-                        'There was an issue getting to the photos.',
+                        'There was an issue getting to the photos\nCheck your internet connection and try again later.',
                         textAlign: TextAlign.center,
                       ),
                       ElevatedButton.icon(
@@ -98,7 +98,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
               }
 
               if (snapshot.data == null) {
-                return const Text('Uh oh! snapshot is null');
+                return const Text('No data has been found');
               }
 
               return GridView(

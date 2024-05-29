@@ -45,21 +45,27 @@ class PhotoItem extends StatelessWidget {
               child: child,
             );
           },
-          /* 
-          i don't know why, but this just doesn't want to work the way it should
-          it's documented as if it chains with framebuilder, but instead only one is active at a time regardless
+          /*
+          unnecessary to put a loadingBuilder here because it loads so incredibly fast
+          you might see a frame with them on and at that point why have a loader.
           */
           // loadingBuilder: (context, child, loadingProgress) {
-          //   if (loadingProgress == null) {
-          //     return child;
-          //   }
-          //   return CircularProgressIndicator(
-          //     value: loadingProgress.expectedTotalBytes != null
-          //         ? loadingProgress.expectedTotalBytes! /
-          //             loadingProgress.cumulativeBytesLoaded
-          //         : null,
-          //   );
-          // },
+          //     if (loadingProgress == null) {
+          //       return child;
+          //     }
+          //     return SizedBox(
+          //       height: 300,
+          //       width: 300,
+          //       child: Center(
+          //         child: CircularProgressIndicator(
+          //           value: loadingProgress.expectedTotalBytes != null
+          //               ? loadingProgress.cumulativeBytesLoaded /
+          //                   loadingProgress.expectedTotalBytes!
+          //               : null,
+          //         ),
+          //       ),
+          //     );
+          //   },
           errorBuilder: (context, error, stackTrace) {
             return Center(
               child: Padding(

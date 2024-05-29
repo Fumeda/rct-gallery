@@ -11,7 +11,9 @@ class CommentCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       clipBehavior: Clip.hardEdge,
+      color: Theme.of(context).colorScheme.secondaryContainer,
       child: InkWell(
+        splashColor: Theme.of(context).colorScheme.background,
         onTap: () {},
         child: Padding(
           padding: const EdgeInsets.all(8.0),
