@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
 
+import 'package:rct_gallery/logic/photos_cubit.dart';
 import 'package:rct_gallery/models/photo.dart';
 
 class PhotoItem extends StatelessWidget {
-  const PhotoItem({
-    super.key,
-    required this.photo,
-    required this.onTap,
-  });
+  const PhotoItem({super.key, required this.photo});
 
   final Photo photo;
-  final void Function(Photo photo) onTap;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        onTap(photo);
+        PhotosCubit().showDetails(photo, context);
       },
       borderRadius: BorderRadius.circular(16),
       splashColor: Theme.of(context).colorScheme.primary,
@@ -77,7 +73,7 @@ class PhotoItem extends StatelessWidget {
                     TextButton.icon(
                         icon: const Icon(Icons.restart_alt),
                         onPressed: () {},
-                        label: const Text('Try again (TBD)')),
+                        label: const Text('Try again')),
                   ],
                 ),
               ),

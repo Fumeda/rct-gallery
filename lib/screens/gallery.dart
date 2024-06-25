@@ -1,126 +1,42 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:rct_gallery/models/photo.dart';
-import 'package:rct_gallery/widgets/photo_details.dart';
-import 'package:rct_gallery/widgets/photo_item.dart';
+import 'package:rct_gallery/logic/photos_cubit.dart';
+import 'package:rct_gallery/logic/photos_state.dart';
+import 'package:rct_gallery/widgets/loading_circle.dart';
+import 'package:rct_gallery/widgets/photo_gallery.dart';
+import 'package:rct_gallery/widgets/load_error.dart';
 
 class GalleryScreen extends StatefulWidget {
   const GalleryScreen({super.key});
 
   @override
-  State<GalleryScreen> createState() {
-    return _GalleryScreenState();
-  }
+  State<GalleryScreen> createState() => _GalleryScreenState();
 }
 
 class _GalleryScreenState extends State<GalleryScreen> {
-  late Future<List<Photo>> photos;
-  /*
-  get all photos, executed at initState, not optimal but
-  likely better than making a single request for each photo?
-  */
-  Future<List<Photo>> _fetchPhotos() async {
-    final response =
-        await http.get(Uri.https('jsonplaceholder.typicode.com', '/photos'));
-    final List<Photo> photos = [];
-
-    for (final photo in json.decode(response.body)) {
-      photos.add(
-        Photo(
-          albumId: photo['albumId'],
-          id: photo['id'],
-          title: photo['title'],
-          url: photo['url'],
-          thumbnailUrl: photo['thumbnailUrl'],
-        ),
-      );
-    }
-    return photos;
-  }
-
-  void _showDetails(Photo photo) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return Dialog(
-          clipBehavior: Clip.hardEdge,
-          insetPadding:
-              const EdgeInsets.symmetric(horizontal: 40, vertical: 160),
-          child: PhotoDetails(photo: photo),
-        );
-      },
-    );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    photos = _fetchPhotos();
-  }
-
+  // @override
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Expanded(
-          child: FutureBuilder(
-            future: photos,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              }
+    return BlocProvider<PhotosCubit>(
+      create: (context) => PhotosCubit()..fetchPhotos(),
+      child: BlocBuilder<PhotosCubit, PhotosState>(
+        builder: (context, state) {
+          switch (state.status) {
+            case PhotosStatus.init:
+              return const LoadingCircle();
 
-              if (snapshot.hasError) {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        'There was an issue getting to the photos\nCheck your internet connection and try again later.',
-                        textAlign: TextAlign.center,
-                      ),
-                      ElevatedButton.icon(
-                        onPressed: () {
-                          setState(() {
-                            photos = _fetchPhotos();
-                          });
-                        },
-                        icon: const Icon(Icons.restart_alt_rounded),
-                        label: const Text('Retry'),
-                      )
-                    ],
-                  ),
-                );
-              }
+            case PhotosStatus.loading:
+              return const LoadingCircle();
 
-              if (snapshot.data == null) {
-                return const Text('No photos have been found');
-              }
+            case PhotosStatus.finished:
+              return PhotoGallery(photos: state.photos);
 
-              return GridView(
-                padding: const EdgeInsets.all(24),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 1,
-                  mainAxisSpacing: 24,
-                  crossAxisSpacing: 24,
-                ),
-                children: [
-                  for (final photo in snapshot.data!)
-                    PhotoItem(
-                      photo: photo,
-                      onTap: _showDetails,
-                    ),
-                ],
-              );
-            },
-          ),
-        ),
-      ],
+            case PhotosStatus.error:
+              return const LoadError(isPhotosError: true);
+          }
+        },
+      ),
     );
   }
 }
