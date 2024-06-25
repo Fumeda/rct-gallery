@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:rct_gallery/logic/comments_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:rct_gallery/logic/photos_cubit.dart';
+import 'package:rct_gallery/logic/comments_cubit.dart';
 
 class LoadError extends StatelessWidget {
   const LoadError({super.key, required this.isPhotosError});
@@ -11,6 +12,7 @@ class LoadError extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (isPhotosError) {
+      final photosCubit = BlocProvider.of<PhotosCubit>(context);
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -21,7 +23,7 @@ class LoadError extends StatelessWidget {
             ),
             ElevatedButton.icon(
               onPressed: () {
-                PhotosCubit().fetchPhotos();
+                photosCubit.fetchPhotos();
               },
               icon: const Icon(Icons.restart_alt_rounded),
               label: const Text('Retry'),
@@ -30,6 +32,7 @@ class LoadError extends StatelessWidget {
         ),
       );
     } else {
+      final commentsCubit = BlocProvider.of<CommentsCubit>(context);
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -40,7 +43,7 @@ class LoadError extends StatelessWidget {
             ),
             ElevatedButton.icon(
               onPressed: () {
-                CommentsCubit().fetchComments();
+                commentsCubit.fetchComments();
               },
               icon: const Icon(Icons.restart_alt_rounded),
               label: const Text('Retry'),

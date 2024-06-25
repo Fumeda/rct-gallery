@@ -15,7 +15,6 @@ class GalleryScreen extends StatefulWidget {
 }
 
 class _GalleryScreenState extends State<GalleryScreen> {
-  // @override
   @override
   Widget build(BuildContext context) {
     return BlocProvider<PhotosCubit>(
