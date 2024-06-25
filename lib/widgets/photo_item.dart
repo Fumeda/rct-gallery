@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:rct_gallery/logic/photos_cubit.dart';
 import 'package:rct_gallery/models/photo.dart';
@@ -10,9 +11,11 @@ class PhotoItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final photosCubit = BlocProvider.of<PhotosCubit>(context);
+
     return InkWell(
       onTap: () {
-        PhotosCubit().showDetails(photo, context);
+        photosCubit.showDetails(photo, context);
       },
       borderRadius: BorderRadius.circular(16),
       splashColor: Theme.of(context).colorScheme.primary,
@@ -69,11 +72,13 @@ class PhotoItem extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text('Error loading image'),
-                    TextButton.icon(
-                        icon: const Icon(Icons.restart_alt),
-                        onPressed: () {},
-                        label: const Text('Try again')),
+                    const Text('Refresh gallery?'),
+                    IconButton(
+                      onPressed: () {
+                        photosCubit.fetchPhotos();
+                      },
+                      icon: const Icon(Icons.restart_alt),
+                    ),
                   ],
                 ),
               ),

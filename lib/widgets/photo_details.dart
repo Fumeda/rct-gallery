@@ -59,7 +59,7 @@ class PhotoDetails extends StatelessWidget {
               );
             },
             errorBuilder: (context, error, stackTrace) {
-              return Center(
+              return const Center(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
@@ -72,11 +72,8 @@ class PhotoDetails extends StatelessWidget {
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text('Error loading image'),
-                            TextButton.icon(
-                                icon: const Icon(Icons.restart_alt),
-                                onPressed: () {},
-                                label: const Text('Try again (TBD)')),
+                            Icon(Icons.error_outline),
+                            Text('Failed to load image')
                           ],
                         ),
                       ),

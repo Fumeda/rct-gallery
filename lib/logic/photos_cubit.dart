@@ -51,4 +51,9 @@ class PhotosCubit extends Cubit<PhotosState> {
       },
     );
   }
+
+  void reloadImage(Photo photo){
+    emit(state.update(status: PhotosStatus.loading));
+    emit(state.update(status: PhotosStatus.finished));
+  }
 }
