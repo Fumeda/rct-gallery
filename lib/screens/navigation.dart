@@ -1,48 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:rct_gallery/models/photo.dart';
-import 'package:rct_gallery/screens/comments.dart';
-import 'package:rct_gallery/screens/gallery.dart';
+import 'package:rct_gallery/logic/navigation_cubit.dart';
+import 'package:rct_gallery/logic/navigation_state.dart';
 
-class NavigationScreen extends StatefulWidget {
+class NavigationScreen extends StatelessWidget {
   const NavigationScreen({super.key});
 
   @override
-  State<NavigationScreen> createState() => _NavigationScreenState();
-}
-
-class _NavigationScreenState extends State<NavigationScreen> {
-  late Future<List<Photo>> photos;
-  var currentPageIndex = 0;
-
-  final screens = [
-    const GalleryScreen(),
-    const CommentsScreen(),
-  ];
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: NavigationBar(
-        backgroundColor: Theme.of(context).colorScheme.background,
-        onDestinationSelected: (index) {
-          setState(() {
-            currentPageIndex = index;
-          });
-        },
-        selectedIndex: currentPageIndex,
-        destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.image),
-            label: 'Gallery',
+
+    final navigationCubit = BlocProvider.of<NavigationCubit>(context);
+
+    return BlocBuilder<NavigationCubit, NavigationState>(
+      builder: (context, state) {
+        return Scaffold(
+          body: SafeArea(child: state.screens[state.screenIndex]),
+          bottomNavigationBar: NavigationBar(
+            backgroundColor: Theme.of(context).colorScheme.background,
+            onDestinationSelected: (index) {
+              navigationCubit.switchScreen(index);
+            },
+            selectedIndex: state.screenIndex,
+            destinations: const [
+              NavigationDestination(
+                icon: Icon(Icons.image),
+                label: 'Gallery',
+              ),
+              NavigationDestination(
+                icon: Icon(Icons.chat),
+                label: 'Comments',
+              ),
+            ],
           ),
-          NavigationDestination(
-            icon: Icon(Icons.chat),
-            label: 'Comments',
-          ),
-        ],
-      ),
-      body: SafeArea(child: screens[currentPageIndex]),
+        );
+      },
     );
-  } 
+  }
 }

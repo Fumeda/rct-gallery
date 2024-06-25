@@ -42,9 +42,9 @@ class PhotoItem extends StatelessWidget {
             );
           },
           /*
-          unnecessary to put a loadingBuilder here because it loads so incredibly fast
-          you might see a frame with them on and at that point why have a loader.
-          */
+            unnecessary to put a loadingBuilder here because it loads so incredibly fast
+            you might see a frame with them on and at that point why have a loader.
+            */
           // loadingBuilder: (context, child, loadingProgress) {
           //     if (loadingProgress == null) {
           //       return child;

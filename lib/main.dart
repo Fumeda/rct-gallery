@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:google_fonts/google_fonts.dart';
+import 'package:rct_gallery/logic/navigation_cubit.dart';
 
 import 'package:rct_gallery/screens/navigation.dart';
 
@@ -25,9 +27,12 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: theme,
-      home: const NavigationScreen(),
+    return BlocProvider(
+      create: (_) => NavigationCubit(),
+      child: MaterialApp(
+        theme: theme,
+        home: const NavigationScreen(),
+      ),
     );
   }
 }
