@@ -11,46 +11,33 @@ class LoadError extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentCubit; //DYNAMIC TYPE
+
     if (isPhotosError) {
-      final photosCubit = BlocProvider.of<PhotosCubit>(context);
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'There was an issue getting to the photos\nCheck your internet connection and try again later.',
-              textAlign: TextAlign.center,
-            ),
-            ElevatedButton.icon(
-              onPressed: () {
-                photosCubit.fetchPhotos();
-              },
-              icon: const Icon(Icons.restart_alt_rounded),
-              label: const Text('Retry'),
-            )
-          ],
-        ),
-      );
+      currentCubit = BlocProvider.of<PhotosCubit>(context);
     } else {
-      final commentsCubit = BlocProvider.of<CommentsCubit>(context);
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'There was an issue getting to the comments\nCheck your internet connection and try again later.',
-              textAlign: TextAlign.center,
-            ),
-            ElevatedButton.icon(
-              onPressed: () {
-                commentsCubit.fetchComments();
-              },
-              icon: const Icon(Icons.restart_alt_rounded),
-              label: const Text('Retry'),
-            )
-          ],
-        ),
-      );
+      currentCubit = BlocProvider.of<CommentsCubit>(context);
     }
+
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'There was an issue getting to the ${isPhotosError ? 'photos' : 'comments'}\nCheck your internet connection and try again later.',
+            textAlign: TextAlign.center,
+          ),
+          ElevatedButton.icon(
+            onPressed: () {
+              isPhotosError
+                  ? currentCubit.fetchPhotos()
+                  : currentCubit.fetchComments();
+            },
+            icon: const Icon(Icons.restart_alt_rounded),
+            label: const Text('Retry'),
+          )
+        ],
+      ),
+    );
   }
 }
