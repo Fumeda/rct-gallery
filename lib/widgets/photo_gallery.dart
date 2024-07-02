@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:rct_gallery/widgets/photo_item.dart';
+import 'package:rct_gallery/widgets/photo_gallery_item.dart';
 import 'package:rct_gallery/models/photo.dart';
 
 class PhotoGallery extends StatelessWidget {
@@ -20,7 +20,7 @@ class PhotoGallery extends StatelessWidget {
       ),
       children: [
         for (final photo in photos)
-          PhotoItem(
+          PhotoGalleryItem(
             photo: photo,
           ),
       ],

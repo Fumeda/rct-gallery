@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rct_gallery/logic/photos_cubit.dart';
 import 'package:rct_gallery/models/photo.dart';
 
-class PhotoItem extends StatelessWidget {
-  const PhotoItem({super.key, required this.photo});
+class PhotoGalleryItem extends StatelessWidget {
+  const PhotoGalleryItem({super.key, required this.photo});
 
   final Photo photo;
 
