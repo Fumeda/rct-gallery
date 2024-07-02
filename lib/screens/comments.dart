@@ -7,14 +7,9 @@ import 'package:rct_gallery/widgets/comments_list.dart';
 import 'package:rct_gallery/widgets/load_error.dart';
 import 'package:rct_gallery/widgets/loading_circle.dart';
 
-class CommentsScreen extends StatefulWidget {
+class CommentsScreen extends StatelessWidget {
   const CommentsScreen({super.key});
 
-  @override
-  State<CommentsScreen> createState() => _CommentsScreenState();
-}
-
-class _CommentsScreenState extends State<CommentsScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<CommentsCubit>(

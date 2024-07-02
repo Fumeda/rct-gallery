@@ -7,14 +7,9 @@ import 'package:rct_gallery/widgets/loading_circle.dart';
 import 'package:rct_gallery/widgets/photo_gallery.dart';
 import 'package:rct_gallery/widgets/load_error.dart';
 
-class GalleryScreen extends StatefulWidget {
+class GalleryScreen extends StatelessWidget {
   const GalleryScreen({super.key});
 
-  @override
-  State<GalleryScreen> createState() => _GalleryScreenState();
-}
-
-class _GalleryScreenState extends State<GalleryScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<PhotosCubit>(
