@@ -20,16 +20,8 @@ class PhotosCubit extends Cubit<PhotosState> {
 
       final List<Photo> photos = [];
 
-      for (final photo in json.decode(response.body)) {
-        photos.add(
-          Photo(
-            albumId: photo['albumId'],
-            id: photo['id'],
-            title: photo['title'],
-            url: photo['url'],
-            thumbnailUrl: photo['thumbnailUrl'],
-          ),
-        );
+      for (final json in json.decode(response.body)) {
+        photos.add(Photo.fromJson(json));
       }
 
       emit(state.update(photos: photos, status: PhotosStatus.finished));
@@ -52,7 +44,7 @@ class PhotosCubit extends Cubit<PhotosState> {
     );
   }
 
-  void reloadImage(Photo photo){
+  void reloadImage(Photo photo) {
     emit(state.update(status: PhotosStatus.loading));
     emit(state.update(status: PhotosStatus.finished));
   }

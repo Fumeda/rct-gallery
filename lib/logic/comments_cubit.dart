@@ -17,16 +17,8 @@ class CommentsCubit extends Cubit<CommentsState> {
           .get(Uri.https('jsonplaceholder.typicode.com', '/comments'));
       List<Comment> comments = [];
 
-      for (final comment in json.decode(response.body)) {
-        comments.add(
-          Comment(
-            postId: comment['postId'],
-            id: comment['id'],
-            name: comment['name'],
-            email: comment['email'],
-            body: comment['body'],
-          ),
-        );
+      for (final json in json.decode(response.body)) {
+        comments.add(Comment.fromJson(json));
       }
 
       emit(CommentsState(comments: comments, status: CommentsStatus.finished));
